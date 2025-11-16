@@ -5,17 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{ asset('css/output.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-        <title>Sign Up - Knewbie</title>
-        <meta name="description" content="Knewbie is an innovative online learning platform.">
+        <title>Knewbie - Learn Anytime, Anywhere</title>
+        <meta name="description" content="Knewbie is an innovative online learning platform that empowers students and professionals with high-quality, accessible courses.">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/logos/logo-64.png') }}">
         <link rel="apple-touch-icon" href="{{ asset('assets/images/logos/logo-64.png') }}">
 
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="Knewbie - Learn Anytime, Anywhere">
+        <meta property="og:description" content="Knewbie is an innovative online learning platform that empowers students and professionals with high-quality, accessible courses.">
+        <meta property="og:image" content="{{ asset('assets/images/logos/logo-64-big.png') }}">
+        <meta property="og:url" content="{{ url('/') }}">
+        <meta property="og:type" content="website">
+
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="font-['Poppins'] bg-gray-50 min-h-screen">
-        <!-- Navbar Simplified -->
+    <body class="font-['Poppins']">
         <nav id="nav-guest" class="flex w-full bg-white border-b border-gray-200 relative">
             <div class="flex w-full max-w-[1280px] px-4 md:px-8 lg:px-[75px] py-5 items-center mx-auto">
                 <!-- Logo -->
@@ -97,89 +103,64 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="flex items-center justify-center py-8 md:py-12 bg-gradient-to-br from-blue-50 to-gray-100 min-h-[calc(100vh-80px)]">
-            <!-- Container dengan padding SAMA seperti navbar -->
-            <div class="w-full max-w-[1280px] px-4 md:px-8 lg:px-[75px]">
+        <!-- Hero Section -->
+        <main class="flex flex-1 items-center py-8 md:py-[50px]">
+            <div class="w-full flex flex-col lg:flex-row gap-8 lg:gap-[77px] justify-between items-center px-4 md:px-8 lg:pl-[calc(((100%-1280px)/2)+75px)]">
                 
-                <!-- Card Container (Gambar + Form dalam 1 Card) -->
-                <div class="w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
-                    <div class="flex flex-col lg:flex-row">
+                <!-- Text Content -->
+                <div class="flex flex-col w-full lg:max-w-[500px] gap-8 md:gap-[50px]">
+                    <div class="flex flex-col gap-6 md:gap-[30px]">
+                        <!-- Badge -->
+                        <p class="flex items-center gap-[6px] w-fit rounded-full py-2 px-3 md:px-[14px] bg-blue-100">
+                            <img src="{{ asset('assets/images/icons/crown-green.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="icon">
+                            <span class="font-bold text-xs md:text-sm">TRUSTED BY 500 FORTUNE COMPANIES</span>
+                        </p>
                         
-                        <!-- Left Side: Image -->
-                        <div class="lg:w-1/2 relative bg-gradient-to-br from-blue-500 to-purple-600 min-h-[300px] lg:min-h-[600px]">
-                            <img 
-                                src="{{ asset('assets/images/backgrounds/banner-subscription.png') }}" 
-                                class="w-full h-full object-cover opacity-90" 
-                                alt="Learning banner"
-                            >
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        </div>
-
-                        <!-- Right Side: Form -->
-                        <div class="lg:w-1/2 p-6 md:p-10">
-                            <h1 class="font-bold text-2xl md:text-3xl text-center mb-8 text-gray-900">Welcome Back,<br> Let's Upgrade Skills</h1>
-                            
-                            <form href="{{ route('login') }}" method="POST" class="flex flex-col gap-5">
-                                @csrf
-
-                                <!-- Email Address -->
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-semibold text-gray-700">Email Address</label>
-                                    <div class="relative">
-                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                            </svg>
-                                        </span>
-                                        <input 
-                                            type="email" 
-                                            name="email"
-                                            class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-sm" 
-                                            placeholder="Type your valid email address"
-                                            required
-                                        >
-                                    </div>
-                                </div>
-
-                                <!-- Password -->
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-semibold text-gray-700">Password</label>
-                                    <div class="relative">
-                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                                            </svg>
-                                        </span>
-                                        <input 
-                                            type="password" 
-                                            name="password"
-                                            class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-sm" 
-                                            placeholder="Type your Password"
-                                            required
-                                        >
-                                    </div>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <button 
-                                    type="submit" 
-                                    class="w-full mt-2 rounded-xl py-3.5 px-6 bg-blue-600 text-white font-semibold hover:bg-blue-700 hover:shadow-xl transition transform hover:-translate-y-0.5"
-                                >
-                                    Sign In to My Account
-                                </button>
-                            </form>
-
-                            <!-- Footer -->
-                            <p class="text-center text-sm text-gray-600 mt-6">
-                                Already have an account? 
-                                <a href="{{ route('register') }}" class="text-blue-600 font-semibold hover:underline">Sign Up</a>
+                        <!-- Heading & Description -->
+                        <div>
+                            <h1 class="font-extrabold text-3xl md:text-4xl lg:text-[40px] leading-tight md:leading-[65px]">
+                                Upgrade Skills, <br>Get Higher Salary
+                            </h1>
+                            <p class="leading-6 md:leading-7 mt-3 md:mt-[10px] text-gray-600 text-sm md:text-base">
+                                Materi terbaru disusun oleh professional dan perusahaan besar agar lebih sesuai kebutuhan dan anda lorem dolorsi.
                             </p>
                         </div>
-
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 md:gap-[18px]">
+                            <a href="{{ url('/pricing') }}" class="flex items-center justify-center rounded-full h-[55px] md:h-[67px] py-4 md:py-5 px-6 md:px-[30px] bg-blue-600 hover:shadow-lg transition-all duration-300">
+                                <span class="text-white font-semibold text-base md:text-lg">Get Started</span>
+                            </a>
+                            <a href="{{ url('/how-it-works') }}" class="flex items-center justify-center rounded-full h-[55px] md:h-[67px] border border-gray-200 py-4 md:py-5 px-6 md:px-[30px] bg-white gap-2 md:gap-[10px] hover:border-blue-600 transition-all duration-300">
+                                <img src="{{ asset('assets/images/icons/play-circle-fill.svg') }}" class="size-6 md:size-8 flex shrink-0" alt="icon">
+                                <span class="font-semibold text-base md:text-lg">How It Works</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Proof -->
+                    <div class="flex items-center gap-3 md:gap-[14px]">
+                        <img src="{{ asset('assets/images/photos/group.png') }}" class="flex shrink-0 h-[40px] md:h-[50px]" alt="group photo">
+                        <div>
+                            <div class="flex gap-1 items-center">
+                                <div class="flex">
+                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
+                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
+                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
+                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
+                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
+                                </div>
+                                <span class="font-bold text-sm md:text-base">5.0</span>
+                            </div>
+                            <p class="font-bold mt-1 text-sm md:text-base">Join Millions Developer</p>
+                        </div>
                     </div>
                 </div>
-                
+
+                <!-- Hero Image -->
+                <div class="flex shrink-0 w-full lg:w-[666px] h-auto lg:h-[590px] justify-center lg:justify-end">
+                    <img src="{{ asset('assets/images/backgrounds/hero-image.png') }}" class="w-full h-auto max-w-md lg:max-w-none object-contain" alt="hero-image">
+                </div>
             </div>
         </main>
 
