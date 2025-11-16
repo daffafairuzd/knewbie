@@ -31,12 +31,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required','string','lowercase','max:255','regex:/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/','unique:'.User::class],
+            // --- MODIFIKASI DI SINI ---
+            // Mengganti '.' dengan '.*' di semua lookahead
+            'password' => ['required','confirmed','regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&^#\-=+<>.,])[A-Za-z\d@$!%?&^#\-=+<>.,]{9,}$/'],
+            // --- AKHIR MODIFIKASI ---
             'occupation' => ['required', 'string', 'max:255'],
             'photo' => ['required', 'image', 'mimes:png,jpg,jpeg'],
+        ], [
+            'email.regex' => 'Email must contain a valid domain and TLD (e.g., example@mail.com).',
+            'password.regex' => 'Password must include uppercase, lowercase, number, and special character, and be at least 9 characters long.',
         ]);
 
+        $photoPath = null; // Inisialisasi variabel
         if($request->hasFile('photo')){
             $photoPath = $request->file('photo')->store('photos', 'public');
         }

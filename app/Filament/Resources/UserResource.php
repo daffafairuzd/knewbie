@@ -32,15 +32,30 @@ class UserResource extends Resource
 
                 Forms\Components\TextInput::make('email')
                 ->maxLength(255)
-                ->email()
-                ->required(),
+                ->required()
+                ->rules([
+                    'regex:/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/'
+                ])
+                ->validationMessages([
+                    'regex' => 'Email must contain a valid domain and TLD (e.g., example@mail.com).',
+                ]),
+
 
                 Forms\Components\TextInput::make('password')
-                ->helperText('Minimum 9 characters')
-                ->password() // Untuk password input
+                ->helperText('Minimum 9 characters')    
+                ->password()
                 ->required()
-                ->minLength(9) // Minimum length for the password
-                ->maxLength(255),
+                ->revealable()
+                ->minLength(9)
+                ->maxLength(255)
+                ->rules([
+                    // MODIFIKASI: Mengganti '.' dengan '.*' di semua lookahead
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&^#\-=+<>.,])[A-Za-z\d@$!%?&^#\-=+<>.,]{9,}$/'
+                ])
+                ->validationMessages([
+                    'regex' => 'Password must include uppercase, lowercase, number, and special character.',
+                ]),
+
 
                 Forms\Components\Select::make('occupation')
                 ->options([
