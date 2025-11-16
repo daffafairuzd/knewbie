@@ -38,7 +38,15 @@ class PricingResource extends Resource
                     Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('IDR'),
+                    ->prefix('IDR')
+                    ->minValue(0), // tidak boleh negatif
+
+                    Forms\Components\TextInput::make('duration')
+                    ->required()
+                    ->numeric()
+                    ->prefix('Month')
+                    ->minValue(1), // harus minimal 1
+
 
                     Forms\Components\TextInput::make('duration')
                     ->required()
