@@ -59,6 +59,7 @@
                                             placeholder="Type your valid email address"
                                             required
                                         >
+                                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                     </div>
                                 </div>
 
@@ -78,6 +79,7 @@
                                             placeholder="Type your Password"
                                             required
                                         >
+                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                     </div>
                                 </div>
 
