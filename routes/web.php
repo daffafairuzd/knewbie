@@ -19,12 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('role:student')->group(function () {
-        // Route::get('/dashboard/subscriptions/', [DashboardController::class, 'subscriptions'])
-        // ->name('dashboard.subscriptions');
+        Route::get('/dashboard/subscriptions/', [DashboardController::class, 'subscriptions'])
+        ->name('dashboard.subscriptions');
 
         // model binding 1, 23, 412 ,2121
-        // Route::get('/dashboard/subscription/{transaction}', [DashboardController::class, 'subscription_details'])
-        // ->name('dashboard.subscription.details');
+        Route::get('/dashboard/subscription/{transaction}', [DashboardController::class, 'subscription_details'])
+        ->name('dashboard.subscription.details');
 
         Route::get('/dashboard/courses/', [CourseController::class, 'index'])
         ->name('dashboard');
