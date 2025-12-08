@@ -22,14 +22,13 @@
             </a>
             <div class="h-[50px] flex shrink-0 bg-gray-200 w-px"></div>
            <div id="userId" class="flex items-center gap-3">
-                <img src="{{ asset('assets/images/photos/3rdPerson.png') }}" class="h-14" alt="">
+                <img src="{{ asset('storage/' .  Auth::user()->photo) }}" class="h-14 w-14 rounded-full object-cover" alt="images.png">
                 
                 <div>
-                    <h2 class="text-base font-semibold">Amelia</h2>
-                    <h2 class="text-sm text-gray-600">Student</h2>
+                    <h2 class="text-base font-semibold">{{ Auth::user()->name }}</h2>
+                    <h2 class="text-sm text-gray-600">{{ Auth::user()->occupation }}</h2>
                 </div>
             </div>
-
         </div>
 
         <!-- Mobile: Hamburger Button -->

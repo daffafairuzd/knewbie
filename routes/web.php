@@ -56,6 +56,17 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/booking/payment/midtrans', [FrontController::class, 'paymentStoreMidtrans'])
         ->name('front.payment_store_midtrans');
+        
+        // URL yang diakses di browser: http://127.0.0.1:8000/course-details
+        Route::get('/course-details', [DashboardController::class, 'index'])
+        ->name('dashboard.details.demo');
+
+        Route::get('/course/join-success', [DashboardController::class, 'join_success'])
+        ->name('dashboard.course.join_success');
+
+        // Ubah nama route ini:
+        Route::get('/course/learning-demo', [DashboardController::class, 'learning'])
+        ->name('dashboard.course.learning.demo');
     });
 
 
