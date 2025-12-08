@@ -11,7 +11,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="font-['Poppins']">
-        <x-nav-guest/>
+        <x-nav-dashboard/>
         
         <!-- Hero Section -->
         <section id="HeroSection">
