@@ -55,9 +55,10 @@
 
                         <div class="flex flex-col sm:flex-row gap-4">
                             
-                            <a href="{{ route('dashboard.course.join_success') }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#007BFF] hover:bg-blue-700 text-white rounded-full font-semibold transition-all hover:shadow-[0_10px_20px_rgba(0,123,255,0.3)]">
+                            <a href="{{ route('dashboard.course.join_success', $course->slug) }}" class="inline-flex items-center justify-center px-8 py-3.5 bg-[#007BFF] hover:bg-blue-700 text-white rounded-full font-semibold transition-all hover:shadow-[0_10px_20px_rgba(0,123,255,0.3)]">
                                 Start Learning Now
                             </a>
+
                             
                             <button class="inline-flex items-center justify-center px-8 py-3.5 bg-white border border-gray-200 hover:border-gray-400 text-[#1E1E1E] rounded-full font-semibold transition-all">
                                 Add to Bookmark

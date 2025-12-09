@@ -61,12 +61,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/course-details', [DashboardController::class, 'index'])
         ->name('dashboard.details.demo');
 
-        Route::get('/course/join-success', [DashboardController::class, 'join_success'])
+        Route::get('/dashboard/course/{course:slug}/join-success', [CourseController::class, 'join'])
         ->name('dashboard.course.join_success');
 
-        // Ubah nama route ini:
-        Route::get('/course/learning-demo', [DashboardController::class, 'learning'])
-        ->name('dashboard.course.learning.demo');
+        // Route::get('/course/learning-demo', [DashboardController::class, 'learning'])
+        // ->name('dashboard.course.learning.demo');
     });
 
 
