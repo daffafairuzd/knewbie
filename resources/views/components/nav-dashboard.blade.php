@@ -11,7 +11,7 @@
                 <a href="{{ url('/') }}">Overview</a>
             </li>
             <li class="hover:font-semibold transition-all duration-300">
-                <a href="{{ url('/pricing') }}">Courses</a>
+                <a href="{{ url('/pricing') }}">Pricing</a>
             </li>
         </ul>
 
