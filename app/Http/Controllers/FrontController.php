@@ -16,15 +16,15 @@ class FrontController extends Controller
     protected $paymentService;
     protected $pricingService;
 
-    // public function __construct(
-    //     PaymentService $paymentService,
-    //     TransactionService $transactionService,
-    //     PricingService $pricingService
-    // ) {
-    //     $this->paymentService = $paymentService;
-    //     $this->transactionService = $transactionService;
-    //     $this->pricingService = $pricingService;
-    // }
+    public function __construct(
+        PaymentService $paymentService,
+        TransactionService $transactionService,
+        PricingService $pricingService
+    ) {
+        $this->paymentService = $paymentService;
+        $this->transactionService = $transactionService;
+        $this->pricingService = $pricingService;
+    }
 
     //
     public function index()
