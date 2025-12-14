@@ -203,6 +203,7 @@
                                             </a>
                                         @else
                                             <a
+                                                href="{{ route('front.checkout', $package) }}"
                                                 class="mt-24 w-full h-[50px] rounded-full bg-gray-500 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition flex items-center justify-center"
                                                 type="button">
                                                 GET NOW
@@ -231,24 +232,6 @@
                             Platform pembelajaran interaktif untuk membantu kamu menjadi expert dari basic.
                         </p>
                     </div>
-
-                    {{-- Right --}}
-                    <div class="flex items-start gap-12">
-                        <div class="space-y-2">
-                            <p class="font-semibold mb-2">Menu</p>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Overview</a>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Courses</a>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Pricing</a>
-                        </div>
-
-                        <div class="space-y-2">
-                            <p class="font-semibold mb-2">Support</p>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">FAQ</a>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Contact</a>
-                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Help Center</a>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/60">
