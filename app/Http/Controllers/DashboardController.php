@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index() {
-        return view('courses.details'); // Halaman Detail
+    //
+    protected $transactionService;
+
+    public function __construct(
+        TransactionService $transactionService
+    ) {
+        $this->transactionService = $transactionService;
     }
 
-    public function join_success() {
-        return view('courses.success_joined'); // Halaman Welcome
-        }
+    public function subscriptions()
+    {
+        $transactions = $this->transactionService->getUserTransactions();
+        return view('front.subscriptions', compact('transactions'));
+    }
 
-    public function learning() {
-        return view('courses.learning'); // Halaman Materi
+    public function subscription_details(Transaction $transaction)
+    {
+        return view('front.subscription_details', compact('transaction'));
     }
 }

@@ -36,23 +36,28 @@
             /* wrapper luar: nyembunyiin clone di kiri/kanan */
             .pricing-carousel-wrapper {
                 position: relative;
-                overflow: hidden;
+                overflow-x: hidden;   /* important: hide off-stage items horizontally */
+                overflow-y: visible;
                 padding-inline: 0;
             }
 
             /* di dalam: shadow & card naik nggak kepotong */
             .pricing-carousel .owl-stage-outer {
-                padding: 14px 0 10px;
-                overflow: visible;
+                overflow: hidden !important;   /* <<< wajib hidden untuk clipping horizontal */
+                padding-top: 36px;             /* beri ruang atas untuk active card yang naik */
+                padding-bottom: 18px;
+                box-sizing: border-box;
             }
 
             /* gap antar card diatur dari sini saja */
             .pricing-carousel .owl-item {
-                padding: 0 8px; /* total jarak antar card = 16px */
+                padding: 12px 38px !important; /* vertical 12px, horizontal 6px => rapet */
             }
+
 
             .pricing-carousel .owl-nav {
                 position: absolute;
+                color: #0073FF;
                 inset: 0;
                 display: flex;
                 align-items: center;
@@ -60,25 +65,29 @@
                 pointer-events: none;
             }
 
-            .pricing-carousel .owl-nav button {
-                width: 44px;
-                height: 44px;
-                border-radius: 9999px;
+           .pricing-carousel .owl-nav button {
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
                 background: #ffffff;
-                border: none;
-                box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-                color: #2563EB;
+                border: 1px solid rgba(0,0,0,0.08);      
+                box-shadow: 0 4px 14px rgba(0,0,0,0.10); 
+                color: #1D5BFF;                          
                 font-size: 22px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 pointer-events: auto;
-                transition: background 0.15s ease;
+                transition: all 0.2s ease;
             }
 
             .pricing-carousel .owl-nav button:hover {
-                background: #EFF6FF;
+                background: #F0F4FF;                     /* Hover efek sedikit biru */
+                border-color: rgba(0,0,0,0.12);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Lebih muncul saat hover */
             }
+
 
             @media (max-width: 768px) {
                 .pricing-carousel .owl-nav {
@@ -93,10 +102,12 @@
             .pricing-item {
                 transition: all 0.25s ease;
                 border-radius: 26px;
+                width: 280px;      /* paksa width tetap */
                 max-width: 280px;
-                margin-left: auto;
-                margin-right: auto;
+                margin: 0;         /* jangan auto */
+                box-sizing: border-box;
             }
+
 
             @media (min-width: 1024px) {
                 .pricing-item {
@@ -109,25 +120,34 @@
                 box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
                 transform: translateY(-24px);
                 background-color: #ffffff;
+                position: relative;        
+                z-index: 50; 
             }
 
             .pricing-item--active h2 {
                 color: #2563EB;
             }
+            .pricing-item--active a {
+                background-color: #0073FF;
+            }
         </style>
     </head>
     <body class="font-['Poppins']">
-        <x-nav-guest/>
+        @auth
+            <x-nav-dashboard/>
+        @else
+            <x-nav-guest/>
+        @endauth
 
         <main class="py-10 md:py-16 min-h-screen">
             <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-0">
 
-                {{-- Banner / Hero Pricing --}}
                 <section>
                     <div
                         class="relative rounded-[32px] overflow-hidden h-[260px] md:h-[320px] lg:h-[380px] bg-cover bg-center"
-                        style="background-image: url('{{ asset('assets/images/backgrounds/learning-finished.png') }}');"
+                        style="--bg-image: url('{{ asset('assets/images/backgrounds/learning-finished.png') }}'); background-image: var(--bg-image);"
                     >
+
                         <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10"></div>
                         <div class="absolute inset-0 flex items-center justify-center">
                             <h1 class="text-white font-extrabold text-2xl md:text-3xl lg:text-[32px] text-center">
@@ -139,16 +159,16 @@
                     {{-- Carousel wrapper --}}
                     <div class="pricing-carousel-wrapper mt-[-90px] md:mt-[-110px] lg:mt-[-130px]">
                         <div class="pricing-carousel owl-carousel">
-                            {{-- Student --}}
+                            @foreach($pricing_packages as $package)
                             <div class="item">
                                 <div class="pricing-item bg-white shadow-xl px-5 py-7 flex flex-col justify-between min-h-[260px]">
                                     <div class="space-y-3">
                                         <div>
-                                            <h2 class="font-bold text-xl md:text-2xl">Student</h2>
-                                            <p class="text-xs md:text-sm text-gray-400">Limited User</p>
+                                            <h2 class="font-bold text-xl md:text-2xl">{{$package -> name}}</h2>
+                                            <p class="text-xs md:text-sm text-gray-400">{{$package->duration}} months duration</p>
                                         </div>
                                         <p class="font-extrabold text-2xl md:text-[26px] leading-tight">
-                                            Rp. 99.000
+                                            Rp. {{number_format($package->price, 0, '','.')}}
                                         </p>
 
                                         <div class="mt-3">
@@ -169,141 +189,75 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    @if ($user && $user->hasActiveSubscription())
+                                        <a class="mt-24 w-full h-[50px] rounded-full text-white font-semibold text-sm md:text-base transition {{ $user && $user->hasActiveSubscription() ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700' }} flex items-center justify-center">
+                                            You've Subscribed
+                                        </a>
+                                    @else
+                                        @if (!$user)
+                                            <a
+                                                href="{{ route('login') }}"
+                                                class="mt-24 w-full h-[50px] rounded-full bg-gray-500 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition flex items-center justify-center"
+                                                type="button">
+                                                GET NOW
+                                            </a>
+                                        @else
+                                            <a
+                                                class="mt-24 w-full h-[50px] rounded-full bg-gray-500 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition flex items-center justify-center"
+                                                type="button">
+                                                GET NOW
+                                            </a>
+                                        @endif
+                                    @endif
 
-                                    <button
-                                        class="mt-24 w-full h-[50px] rounded-full bg-blue-600 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition"
-                                        type="button"
-                                    >
-                                        GET NOW
-                                    </button>
                                 </div>
                             </div>
-
-                            {{-- Normal --}}
-                            <div class="item">
-                                <div class="pricing-item bg-white shadow-xl px-5 py-7 flex flex-col justify-between min-h-[260px]">
-                                    <div class="space-y-3">
-                                        <div>
-                                            <h2 class="font-bold text-xl md:text-2xl">Normal</h2>
-                                            <p class="text-xs md:text-sm text-gray-400">Limited User</p>
-                                        </div>
-                                        <p class="font-extrabold text-2xl md:text-[26px] leading-tight">
-                                            Rp. 149.000
-                                        </p>
-
-                                        <div class="mt-3">
-                                            <p class="font-semibold text-sm md:text-base mb-2">Benefit</p>
-                                            <ul class="space-y-1.5 text-sm text-gray-600">
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Akses semua kelas</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Paket Pembelajaran</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Certificate</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        class="mt-24 w-full h-[50px] rounded-full bg-blue-600 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition"
-                                        type="button"
-                                    >
-                                        GET NOW
-                                    </button>
-                                </div>
-                            </div>
-
-                            {{-- Sepuh --}}
-                            <div class="item">
-                                <div class="pricing-item bg-white shadow-xl px-5 py-7 flex flex-col justify-between min-h-[260px]">
-                                    <div class="space-y-3">
-                                        <div>
-                                            <h2 class="font-bold text-xl md:text-2xl">Sepuh</h2>
-                                            <p class="text-xs md:text-sm text-gray-400">Limited User</p>
-                                        </div>
-                                        <p class="font-extrabold text-2xl md:text-[26px] leading-tight">
-                                            Rp. 449.000
-                                        </p>
-
-                                        <div class="mt-3">
-                                            <p class="font-semibold text-sm md:text-base mb-2">Benefit</p>
-                                            <ul class="space-y-1.5 text-sm text-gray-600">
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Akses semua kelas</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Paket Pembelajaran</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Certificate</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        class="mt-24 w-full h-[50px] rounded-full bg-blue-600 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition"
-                                        type="button"
-                                    >
-                                        GET NOW
-                                    </button>
-                                </div>
-                            </div>
-
-                            {{-- Ultimatum --}}
-                            <div class="item">
-                                <div class="pricing-item bg-white shadow-xl px-5 py-7 flex flex-col justify-between min-h-[260px]">
-                                    <div class="space-y-3">
-                                        <div>
-                                            <h2 class="font-bold text-xl md:text-2xl">Ultimatum</h2>
-                                            <p class="text-xs md:text-sm text-gray-400">Limited User</p>
-                                        </div>
-                                        <p class="font-extrabold text-2xl md:text-[26px] leading-tight">
-                                            Rp. 649.000
-                                        </p>
-
-                                        <div class="mt-3">
-                                            <p class="font-semibold text-sm md:text-base mb-2">Benefit</p>
-                                            <ul class="space-y-1.5 text-sm text-gray-600">
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Akses semua kelas</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Paket Pembelajaran</span>
-                                                </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Certificate</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        class="mt-24 w-full h-[50px] rounded-full bg-blue-600 text-white font-semibold text-sm md:text-base hover:shadow-lg hover:bg-blue-700 transition"
-                                        type="button"
-                                    >
-                                        GET NOW
-                                    </button>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </section>
 
             </div>
         </main>
+        <footer class="bg-[#0E1E46] text-white mt-20">
+            <div class="max-w-6xl mx-auto px-6 md:px-10 lg:px-0 py-10">
+
+                <div class="flex flex-col md:flex-row items-start justify-between gap-8">
+
+                    {{-- Left --}}
+                    <div class="space-y-3 max-w-sm">
+                        <h3 class="text-2xl font-bold">KNewbie</h3>
+                        <p class="text-sm leading-relaxed text-white/80">
+                            Platform pembelajaran interaktif untuk membantu kamu menjadi expert dari basic.
+                        </p>
+                    </div>
+
+                    {{-- Right --}}
+                    <div class="flex items-start gap-12">
+                        <div class="space-y-2">
+                            <p class="font-semibold mb-2">Menu</p>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Overview</a>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Courses</a>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Pricing</a>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="font-semibold mb-2">Support</p>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">FAQ</a>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Contact</a>
+                            <a href="#" class="block text-sm text-white/70 hover:text-white transition">Help Center</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/60">
+                    © {{ date('Y') }} KNewbie — All rights reserved.
+                </div>
+
+            </div>
+        </footer>
+
 
         <!-- jQuery & OWL CAROUSEL JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -331,6 +285,7 @@
                     nav: true,
                     navText: ['&#10094;', '&#10095;'],
                     center: true,
+                    stagePadding: 50,
                     responsive: {
                         0: {
                             items: 1
