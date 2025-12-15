@@ -7,11 +7,17 @@
 
         <!-- Desktop Menu -->
         <ul class="hidden lg:flex items-center gap-8 ml-12">
-            <li class="hover:font-semibold transition-all duration-300 font-semibold">
-                <a href="{{ route('dashboard') }}">Overview</a>
+            <li>
+                <a href="{{ route('dashboard') }}" 
+                   class="hover:font-semibold transition-all duration-300 {{ request()->routeIs('dashboard') ? 'font-bold text-blue-600' : 'font-medium text-gray-700' }}">
+                    Overview
+                </a>
             </li>
-            <li class="hover:font-semibold transition-all duration-300">
-                <a href="{{ url('/pricing') }}">Pricing</a>
+            <li>
+                <a href="{{ url('/pricing') }}" 
+                   class="hover:font-semibold transition-all duration-300 {{ request()->is('pricing') ? 'font-bold text-blue-600' : 'font-medium text-gray-700' }}">
+                    Pricing
+                </a>
             </li>
         </ul>
 
@@ -35,7 +41,8 @@
 
                 <!-- Dropdown Menu -->
                 <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <a href="{{ route('profile.edit') }}" 
+                       class="flex items-center gap-3 px-4 py-3 transition-colors {{ request()->routeIs('profile.edit') ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
@@ -70,22 +77,43 @@
          class="hidden lg:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-lg z-40">
         <div class="flex flex-col px-4 py-6 space-y-4">
             <a href="{{ route('dashboard') }}"
-               class="font-semibold text-gray-900 hover:text-blue-600 py-2 border-b border-gray-100">
+               class="py-2 border-b border-gray-100 transition-colors {{ request()->routeIs('dashboard') ? 'font-bold text-blue-600' : 'font-medium text-gray-700 hover:text-blue-600' }}">
                 Overview
             </a>
             <a href="{{ url('/pricing') }}"
-               class="font-medium text-gray-700 hover:text-blue-600 py-2 border-b border-gray-100">
+               class="py-2 border-b border-gray-100 transition-colors {{ request()->is('pricing') ? 'font-bold text-blue-600' : 'font-medium text-gray-700 hover:text-blue-600' }}">
                 Pricing
             </a>
-            <div class="flex flex-col gap-3 pt-4">
-                <a href="{{ route('register') }}"
-                   class="rounded-full border border-gray-200 py-3 px-5 bg-white hover:border-blue-600 transition-all duration-300 text-center">
-                    <span class="font-semibold">Sign Up</span>
-                </a>
-                <a href="{{ route('login') }}"
-                   class="rounded-full py-3 px-5 bg-blue-600 hover:shadow-lg transition-all duration-300 text-center">
-                    <span class="font-semibold text-white">My Account</span>
-                </a>
+            
+            <!-- Mobile User Info -->
+            <div class="pt-4 border-t border-gray-200">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="h-12 w-12 rounded-full object-cover" alt="user">
+                    <div>
+                        <h3 class="font-semibold text-sm">{{ Auth::user()->name }}</h3>
+                        <p class="text-xs text-gray-500">{{ Auth::user()->occupation }}</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col gap-2">
+                    <a href="{{ route('profile.edit') }}"
+                       class="flex items-center gap-2 py-2 px-3 rounded-lg transition-colors {{ request()->routeIs('profile.edit') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 hover:bg-gray-50' }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="text-sm">Profile</span>
+                    </a>
+                    
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center gap-2 py-2 px-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="text-sm font-medium">Logout</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -113,7 +141,7 @@
         });
     }
 
-    // Hamburger Menu Toggle (existing code)
+    // Hamburger Menu Toggle
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
 
