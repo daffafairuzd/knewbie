@@ -19,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('role:student')->group(function () {
+        Route::get('/profile/subscriptions', [ProfileController::class, 'subscriptions'])
+        ->name('profile.subscriptions');
+
         Route::get('/dashboard/subscriptions/', [DashboardController::class, 'subscriptions'])
         ->name('dashboard.subscriptions');
 

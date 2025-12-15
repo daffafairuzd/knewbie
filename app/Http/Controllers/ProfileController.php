@@ -18,6 +18,25 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+        ]); 
+    }
+
+    /**
+     * Show subscription history for the logged-in user.
+     */
+    public function subscriptions(Request $request): View
+    {
+        $user = $request->user();
+
+        // ambil semua transaksi user + relasi pricing (sesuaikan dengan project-mu)
+        $transactions = $user->transactions()
+            ->with('pricing') // ganti kalau nama relasi paketmu beda
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('profile.subscriptions', [
+            'user'         => $user,
+            'transactions' => $transactions,
         ]);
     }
 
@@ -26,16 +45,34 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Data yang sudah divalidasi (bisa hanya name / email / occupation / photo)
+        $data = $request->validated();
+
+        // HANDLE FOTO (kalau form mengirim field "photo")
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+
+            // Simpan ke storage/app/public/photos
+            $path = $file->store('photos', 'public');
+
+            // Simpan path ke kolom "photo"
+            $data['photo'] = $path;
         }
 
-        $request->user()->save();
+        // Kalau email diubah, reset verifikasi email
+        if (array_key_exists('email', $data) && $data['email'] !== $user->email) {
+            $user->email_verified_at = null;
+        }
+
+        // Partial update: hanya field yang ada di $data yang akan di-update
+        $user->fill($data);
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     /**
      * Delete the user's account.
