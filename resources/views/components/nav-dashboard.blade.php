@@ -8,7 +8,7 @@
         <!-- Desktop Menu -->
         <ul class="hidden lg:flex items-center gap-8 ml-12">
             <li class="hover:font-semibold transition-all duration-300 font-semibold">
-                <a href="{{ url('/') }}">Overview</a>
+                <a href="{{ route('dashboard') }}">Overview</a>
             </li>
             <li class="hover:font-semibold transition-all duration-300">
                 <a href="{{ url('/pricing') }}">Pricing</a>
@@ -17,11 +17,6 @@
 
         <!-- Desktop Right Side -->
         <div class="hidden lg:flex items-center gap-5 ml-auto">
-            <a href="{{ url('/messages') }}" class="flex shrink-0">
-                <img src="{{ asset('assets/images/icons/notification.svg') }}" class="flex shrink-0" alt="icon">
-            </a>
-            <div class="h-[50px] flex shrink-0 bg-gray-200 w-px"></div>
-            
             <!-- User Dropdown -->
             <div class="relative">
                 <button id="userMenuButton" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
@@ -74,23 +69,14 @@
     <div id="mobile-menu"
          class="hidden lg:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-lg z-40">
         <div class="flex flex-col px-4 py-6 space-y-4">
-            <a href="{{ url('/') }}"
+            <a href="{{ route('dashboard') }}"
                class="font-semibold text-gray-900 hover:text-blue-600 py-2 border-b border-gray-100">
-                Home
+                Overview
             </a>
             <a href="{{ url('/pricing') }}"
                class="font-medium text-gray-700 hover:text-blue-600 py-2 border-b border-gray-100">
                 Pricing
             </a>
-            <a href="{{ url('/features') }}"
-               class="font-medium text-gray-700 hover:text-blue-600 py-2 border-b border-gray-100">
-                Features
-            </a>
-            <a href="{{ url('/testimonials') }}"
-               class="font-medium text-gray-700 hover:text-blue-600 py-2 border-b border-gray-100">
-                Testimonials
-            </a>
-
             <div class="flex flex-col gap-3 pt-4">
                 <a href="{{ route('register') }}"
                    class="rounded-full border border-gray-200 py-3 px-5 bg-white hover:border-blue-600 transition-all duration-300 text-center">
@@ -101,11 +87,6 @@
                     <span class="font-semibold text-white">My Account</span>
                 </a>
             </div>
-
-            <a href="{{ url('/messages') }}" class="flex items-center gap-2 py-2 text-gray-700 hover:text-blue-600">
-                <img src="{{ asset('assets/images/icons/device-message.svg') }}" class="w-5 h-5" alt="icon">
-                <span class="font-medium">Messages</span>
-            </a>
         </div>
     </div>
 </nav>
