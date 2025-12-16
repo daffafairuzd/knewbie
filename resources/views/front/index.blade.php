@@ -48,33 +48,12 @@
                         
                         <!-- CTA Buttons -->
                         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 md:gap-[18px]">
-                            <a href="{{ url('/pricing') }}" class="flex items-center justify-center rounded-full h-[55px] md:h-[67px] py-4 md:py-5 px-6 md:px-[30px] bg-blue-600 hover:shadow-lg transition-all duration-300">
+                            <a href="{{ route('login') }}" class="flex items-center justify-center rounded-full h-[55px] md:h-[67px] py-4 md:py-5 px-6 md:px-[30px] bg-blue-600 hover:shadow-lg transition-all duration-300">
                                 <span class="text-white font-semibold text-base md:text-lg">Get Started</span>
-                            </a>
-                            <a href="{{ url('/how-it-works') }}" class="flex items-center justify-center rounded-full h-[55px] md:h-[67px] border border-gray-200 py-4 md:py-5 px-6 md:px-[30px] bg-white gap-2 md:gap-[10px] hover:border-blue-600 transition-all duration-300">
-                                <img src="{{ asset('assets/images/icons/play-circle-fill.svg') }}" class="size-6 md:size-8 flex shrink-0" alt="icon">
-                                <span class="font-semibold text-base md:text-lg">How It Works</span>
                             </a>
                         </div>
                     </div>
                     
-                    <!-- Social Proof -->
-                    <div class="flex items-center gap-3 md:gap-[14px]">
-                        <img src="{{ asset('assets/images/photos/group.png') }}" class="flex shrink-0 h-[40px] md:h-[50px]" alt="group photo">
-                        <div>
-                            <div class="flex gap-1 items-center">
-                                <div class="flex">
-                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
-                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
-                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
-                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
-                                    <img src="{{ asset('assets/images/icons/Star 1.svg') }}" class="flex shrink-0 w-4 md:w-5" alt="star">
-                                </div>
-                                <span class="font-bold text-sm md:text-base">5.0</span>
-                            </div>
-                            <p class="font-bold mt-1 text-sm md:text-base">Join Millions Developer</p>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Hero Image -->
