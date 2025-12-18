@@ -26,8 +26,9 @@ class Pricing extends Model
     {
         return $this->transactions()
             ->where('user_id', $userId)
-            ->where('is_paid', true) // Only consider paid subscriptions
-            ->where('ended_at', '>=', now()) // Check if the subscription is still active
+            ->where('is_paid', true) 
+            ->where('started_at', '<=', now())
+            ->where('ended_at', '>=', now()) 
             ->exists();
     }
 }

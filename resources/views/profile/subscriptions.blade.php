@@ -139,7 +139,8 @@
 
                                         $isActive = $transaction->is_paid &&
                                                     $transaction->ended_at &&
-                                                    $transaction->ended_at->isFuture();
+                                                    $transaction->ended_at &&
+                                                    now()->between($transaction->started_at, $transaction->ended_at);
 
                                         $statusText  = $isActive ? 'Active' : 'Inactive';
                                         $statusColor = $isActive ? 'text-[#0073FF] bg-blue-50 border-blue-100' : 'text-red-500 bg-red-50 border-red-100';

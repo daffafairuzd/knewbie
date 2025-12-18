@@ -40,9 +40,6 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.search.courses');
 
         Route::middleware(['check.subscription'])->group(function () {
-            Route::get('/dashboard/join/{course:slug}', [CourseController::class, 'join'])
-            ->name('dashboard.course.join');
-
             // web-design-hack/1/12
             Route::get('/dashboard/learning/{course:slug}/{courseSection}/{sectionContent}', [CourseController::class, 'learning'])
             ->name('dashboard.course.learning');
@@ -63,12 +60,6 @@ Route::middleware('auth')->group(function () {
         // URL yang diakses di browser: http://127.0.0.1:8000/course-details
         Route::get('/course-details', [DashboardController::class, 'index'])
         ->name('dashboard.details.demo');
-
-        Route::get('/dashboard/course/{course:slug}/join-success', [CourseController::class, 'join'])
-        ->name('dashboard.course.join_success');
-
-        // Route::get('/course/learning-demo', [DashboardController::class, 'learning'])
-        // ->name('dashboard.course.learning.demo');
     });
 
 

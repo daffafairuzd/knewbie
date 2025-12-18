@@ -19,15 +19,19 @@
                     👋 Selamat datang, {{ Auth::user()->name }} !  <br> 
                     Semoga harimu penuh semangat belajar dan inspirasi. 🌟
                 </h1>
-                <form class="py-10 max-w-xl mx-auto px-4" onsubmit="event.preventDefault();">
+                
+                <!-- FIXED SEARCH FORM -->
+                <form action="{{ route('dashboard.search.courses') }}" method="GET" class="py-10 max-w-xl mx-auto px-4">
                     <div class="flex items-center bg-white rounded-full shadow-md px-5 py-2.5 gap-3">
                         <input 
                             type="search" 
+                            name="search"
                             placeholder="Yuk, jelajahi materi seru yang kamu suka!" 
                             class="w-full text-center text-sm md:text-base text-gray-600 placeholder-gray-400 outline-none border-none bg-transparent"
+                            required
                         />
-                        <button type="submit" class="flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                        <button type="submit" class="flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 hover:text-blue-600 transition-colors" viewBox="0 0 24 24" fill="none">
                                 <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.8"/>
                                 <path d="M16 16L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                             </svg>
@@ -79,119 +83,27 @@
             </div>
         </section>
 
-        <script>
-            const carousel = document.getElementById('carousel'); 
-            // Catatan: Script ini mungkin perlu penyesuaian jika ingin berjalan di banyak kategori sekaligus,
-            // namun sesuai permintaan saya biarkan sama seperti kode asli Anda.
-            
-            const prevBtn = document.getElementById('prev');
-            const nextBtn = document.getElementById('next');
-            const dotsContainer = document.getElementById('dots');
-            
-            if (carousel) { // Pengecekan agar tidak error jika elemen tidak ditemukan
-                const cards = carousel.children;
-                const totalCards = cards.length;
-                let currentIndex = 0;
-                let autoSlideInterval;
-
-                function getVisibleCards() {
-                    if (window.innerWidth >= 1024) return 4;
-                    if (window.innerWidth >= 768) return 3;
-                    return 1;
-                }
-
-                function getCardWidth() {
-                    return cards[0].offsetWidth + 16; 
-                }
-
-                function updateCarousel() {
-                    const cardWidth = getCardWidth();
-                    const offset = -currentIndex * cardWidth;
-                    carousel.style.transform = `translateX(${offset}px)`;
-                    updateDots();
-                }
-
-                function createDots() {
-                    if(!dotsContainer) return;
-                    dotsContainer.innerHTML = '';
-                    const maxIndex = Math.max(0, totalCards - getVisibleCards());
-                    for (let i = 0; i <= maxIndex; i++) {
-                        const dot = document.createElement('button');
-                        dot.className = 'w-2 h-2 rounded-full transition-all duration-300';
-                        dot.onclick = () => {
-                            currentIndex = i;
-                            updateCarousel();
-                            resetAutoSlide();
-                        };
-                        dotsContainer.appendChild(dot);
-                    }
-                    updateDots();
-                }
-
-                function updateDots() {
-                    if(!dotsContainer) return;
-                    const dots = dotsContainer.children;
-                    for (let i = 0; i < dots.length; i++) {
-                        if (i === currentIndex) {
-                            dots[i].className = 'w-8 h-2 rounded-full bg-blue-600 transition-all duration-300';
-                        } else {
-                            dots[i].className = 'w-2 h-2 rounded-full bg-gray-300 transition-all duration-300';
-                        }
-                    }
-                }
-
-                function nextSlide() {
-                    const maxIndex = Math.max(0, totalCards - getVisibleCards());
-                    currentIndex = (currentIndex + 1) % (maxIndex + 1);
-                    updateCarousel();
-                }
-
-                function prevSlide() {
-                    const maxIndex = Math.max(0, totalCards - getVisibleCards());
-                    currentIndex = (currentIndex - 1 + maxIndex + 1) % (maxIndex + 1);
-                    updateCarousel();
-                }
-
-                function startAutoSlide() {
-                    autoSlideInterval = setInterval(nextSlide, 5000);
-                }
-
-                function resetAutoSlide() {
-                    clearInterval(autoSlideInterval);
-                    startAutoSlide();
-                }
-
-                if(nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        nextSlide();
-                        resetAutoSlide();
-                    });
-                }
-
-                if(prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        prevSlide();
-                        resetAutoSlide();
-                    });
-                }
-
-                createDots();
-                updateCarousel();
-                startAutoSlide();
-
-                window.addEventListener('resize', () => {
-                    createDots();
-                    updateCarousel();
-                });
-
-                carousel.parentElement.addEventListener('mouseenter', () => {
-                    clearInterval(autoSlideInterval);
-                });
-
-                carousel.parentElement.addEventListener('mouseleave', () => {
-                    startAutoSlide();
-                });
+        <style>
+            /* Hide scrollbar but keep functionality */
+            .hide-scroll {
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE and Edge */
             }
+            .hide-scroll::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Opera */
+            }
+        </style>
+
+        <script>
+            // Carousel functionality for multiple categories
+            document.addEventListener('DOMContentLoaded', function() {
+                const carousels = document.querySelectorAll('[id^="carousel-"]');
+                
+                carousels.forEach(carousel => {
+                    // Add smooth scroll behavior
+                    carousel.style.scrollBehavior = 'smooth';
+                });
+            });
         </script>
 
     </body>

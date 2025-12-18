@@ -1,284 +1,196 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ asset('css/output.css') }}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <title>Course Details - KNewbie</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ asset('css/output.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Learning Room - KNewbie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
+        .sidebar-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); }
+    </style>
+</head>
+<body class="font-['Poppins'] bg-white text-[#1E1E1E]">
 
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/logos/logo-64.png') }}">
-        <link rel="apple-touch-icon" href="{{ asset('assets/images/logos/logo-64.png') }}">
+    <aside class="fixed top-0 left-0 w-[300px] lg:w-[320px] h-full bg-[#007BFF] text-white flex flex-col z-50 transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
         
-        <script src="https://cdn.tailwindcss.com"></script>
-        
-        <style>
-            /* ANIMASI ACCORDION */
-            .accordion-content {
-                transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s;
-                max-height: 0;
-                opacity: 0;
-                overflow: hidden;
-            }
+        <div class="p-6 pb-4 border-b border-white/20 shrink-0">
+            <h1 class="font-bold text-xl mb-1">Course Menu</h1>
+            <p class="text-[11px] text-blue-100 font-light leading-snug line-clamp-2">
+                {{ $course->name }}
+            </p>
+            <div class="mt-4 w-10 h-0.5 bg-white/50 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto sidebar-menu py-2">
             
-            /* Gunakan max-height yang cukup besar agar konten panjang tidak terpotong */
-            .accordion-content.active {
-                max-height: 2000px; /* Nilai aman */
-                opacity: 1;
-            }
-
-            /* ANIMASI CHEVRON */
-            .chevron {
-                transition: transform 0.3s ease;
-            }
-            .chevron.rotate {
-                transform: rotate(180deg);
-            }
-        </style>
-    </head>
-    <body class="font-['Poppins'] bg-[#F4F7FB] text-[#1E1E1E]">
-        
-       <x-nav-dashboard/>
-
-        <main class="py-10 px-4 md:px-6">
-            <div class="max-w-[1100px] mx-auto bg-white rounded-[30px] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.04)]">
+            @foreach($course->courseSections as $section)
+            <div class="group border-b border-white/10 last:border-b-0">
                 
-                <section class="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-12">
-                    <div class="w-full lg:w-[420px] h-[280px] md:h-[300px] shrink-0 rounded-[20px] overflow-hidden relative group">
-                        <img src="{{ asset('storage/' .  $course->thumbnail) }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" alt="Course Thumbnail">
-                    </div>
-                    <div class="flex flex-col justify-center w-full">
-                        <h1 class="font-bold text-2xl md:text-[32px] leading-[1.3] mb-6 text-[#1E1E1E]">
-                            {{ $course->name }}
-                        </h1>
-                        <div class="flex flex-wrap gap-4 md:gap-8 mb-4">
-                            @foreach($course->benefits as $benefit)
-                                <div class="flex items-center gap-2 text-gray-600">
-                                    <i class="fa-solid fa-circle-check text-gray-400"></i>
-                                    <span class="text-sm font-medium">{{ $benefit->name }}</span>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            
-                            {{-- LOGIC: Mengambil Materi Pertama untuk Tombol Start Learning --}}
-                            @php
-                                $firstSection = $course->courseSections->first();
-                                $firstContent = $firstSection ? $firstSection->sectionContents->first() : null;
-                            @endphp
-
-                            @if($firstSection && $firstContent)
-                                {{-- Jika materi tersedia, link langsung ke halaman learning --}}
-                                <a href="{{ route('dashboard.course.learning', [
-                                        'course' => $course->slug, 
-                                        'courseSection' => $firstSection->id, 
-                                        'sectionContent' => $firstContent->id
-                                   ]) }}" 
-                                   class="inline-flex items-center justify-center px-8 py-3.5 bg-[#007BFF] hover:bg-blue-700 text-white rounded-full font-semibold transition-all hover:shadow-[0_10px_20px_rgba(0,123,255,0.3)]">
-                                    Start Learning Now
-                                </a>
-                            @else
-                                {{-- Fallback jika course belum ada isinya --}}
-                                <button disabled class="inline-flex items-center justify-center px-8 py-3.5 bg-gray-300 text-gray-500 cursor-not-allowed rounded-full font-semibold transition-all">
-                                    Start Learning Now
-                                </button>
-                            @endif
-
-                            <button class="inline-flex items-center justify-center px-8 py-3.5 bg-white border border-gray-200 hover:border-gray-400 text-[#1E1E1E] rounded-full font-semibold transition-all">
-                                Add to Bookmark
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <hr class="border-gray-100 mb-10">
-
-                <section class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <button onclick="toggleMenu('menu-{{ $section->id }}', 'arrow-{{ $section->id }}')" 
+                        class="w-full flex justify-between items-center px-6 py-4 hover:bg-white/10 transition-colors text-left font-semibold text-sm focus:outline-none 
+                        {{ $currentSection->id == $section->id ? 'bg-[#0069d9]' : '' }}">
                     
-                    {{-- SIDEBAR MENTOR --}}
-                    <div class="lg:col-span-5 flex flex-col gap-6">
-                        <h3 class="font-bold text-lg">Course Instructors</h3>
+                    <span>{{ $section->name }}</span>
+                    <i id="arrow-{{ $section->id }}" 
+                       class="fa-solid fa-chevron-down text-xs transition-transform duration-300 {{ $currentSection->id == $section->id ? 'rotate-180' : '' }}">
+                    </i>
+                </button>
 
-                        @forelse ($course->courseMentors as $courseMentor)
-                            @php
-                                $mentor = $courseMentor->mentor;
-                            @endphp
-
-                            <div class="border border-[#F1F1F1] rounded-[20px] p-4 flex gap-4 bg-white">
-                                <div class="w-[60px] h-[60px] shrink-0 rounded-full overflow-hidden">
-                                    <img
-                                        src="@if ($mentor && $mentor->photo)
-                                                {{ asset('storage/' . $mentor->photo) }}
-                                            @else
-                                                {{ asset('assets/images/instructors/default.png') }}
-                                            @endif"
-                                        onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'"
-                                        class="w-full h-full object-cover"
-                                    >
-                                </div>
-                                <div class="flex flex-col gap-1 w-full">
-                                    <div class="flex justify-between items-center">
-                                        <span class="font-bold text-sm">
-                                            {{ $mentor?->name ?? 'Unknown Mentor' }}
-                                        </span>
-                                        <div class="flex items-center gap-1 text-[#FF9F43]">
-                                            <i class="fa-solid fa-star text-[10px]"></i>
-                                            <span class="font-bold text-xs">5.0</span>
-                                        </div>
-                                    </div>
-
-                                    <span class="text-xs text-gray-400">
-                                        {{ $mentor?->occupation ?? 'Mentor' }}
-                                    </span>
-
-                                    <p class="text-xs text-gray-500 leading-relaxed mt-1 line-clamp-2">
-                                        {{ $courseMentor->about ?? 'Mentor ini belum memiliki deskripsi.' }}
-                                    </p>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-sm text-gray-400 italic">Belum ada mentor untuk kursus ini.</p>
-                        @endforelse
-                    </div>
-
-                    {{-- MAIN CONTENT TABS --}}
-                    <div class="lg:col-span-7">
-                        <h3 class="font-bold text-lg mb-6">Upgrade Your Skills</h3>
+                <div id="menu-{{ $section->id }}" class="{{ $currentSection->id == $section->id ? '' : 'hidden' }} bg-[#0065d1] px-6 pb-4 pt-2 space-y-2">
+                    
+                    @foreach($section->sectionContents as $content)
+                        @php
+                            $isActive = $currentContent->id == $content->id;
+                        @endphp
                         
-                        <div class="flex gap-3 mb-6">
-                            {{-- TAB BUTTON: ABOUT (Default Active) --}}
-                            <button onclick="switchTab('about')" id="tab-about" 
-                                class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border border-transparent bg-[#007BFF] text-white shadow-lg shadow-blue-500/30">
-                                About
-                            </button>
-                            
-                            {{-- TAB BUTTON: LESSONS (Default Inactive) --}}
-                            <button onclick="switchTab('lessons')" id="tab-lessons" 
-                                class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border bg-white border-gray-200 text-gray-500 hover:bg-gray-50">
-                                Lessons
-                            </button>
-                        </div>
+                        <a href="{{ route('dashboard.course.learning', [
+                                'course' => $course->slug, 
+                                'courseSection' => $section->id, 
+                                'sectionContent' => $content->id
+                            ]) }}" 
+                           class="block w-full text-left px-4 py-2.5 rounded-full text-xs font-medium transition-all
+                           {{ $isActive 
+                                ? 'bg-white text-[#007BFF] font-bold shadow-md transform scale-[1.02]' 
+                                : 'border border-white/30 text-white hover:bg-white/10' }}">
+                            {{ $content->name }}
+                        </a>
+                    @endforeach
 
-                        {{-- CONTENT: ABOUT --}}
-                        <div id="content-about" class="text-gray-500 text-sm leading-[1.8] text-justify space-y-4">
-                            {{$course->about}}
-                        </div>
-
-                        {{-- CONTENT: LESSONS (Default Hidden) --}}
-                        <div id="content-lessons" class="space-y-4 hidden">
-                            @foreach ($course->courseSections as $i => $section)
-                                <div class="border border-gray-200 rounded-[20px] overflow-hidden bg-white">
-                                    <button onclick="toggleAccordion('acc-{{ $i }}', 'icon-{{ $i }}')"
-                                            class="w-full flex justify-between items-center p-5 bg-white hover:bg-gray-50 transition-colors text-left focus:outline-none">
-                                        <span class="font-bold text-[#1E1E1E]">
-                                            {{ $section->name }}
-                                        </span>
-                                        <i id="icon-{{ $i }}" class="fa-solid fa-chevron-down text-[#1E1E1E] chevron {{ $loop->first ? 'rotate' : '' }}"></i>
-                                    </button>
-
-                                    {{-- Accordion Body --}}
-                                    <div id="acc-{{ $i }}" class="accordion-content {{ $loop->first ? 'active' : '' }}">
-                                        <div class="px-5 pb-5 flex flex-col gap-3 pt-2">
-                                            @foreach ($section->sectionContents as $content)
-                                                <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-[#FAFAFA] hover:bg-white hover:border-blue-300 cursor-pointer transition-all group">
-                                                    <div class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-gray-500 group-hover:bg-blue-100 group-hover:text-blue-500 transition-colors">
-                                                        <i class="fa-solid fa-folder text-sm"></i>
-                                                    </div>
-                                                    <span class="font-medium text-sm text-gray-500 group-hover:text-gray-900">
-                                                        {{ $content->name }}
-                                                    </span>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                    </div>
-                </section>
+                </div>
             </div>
-        </main>
+            @endforeach
 
-        <script>
-            // --- 1. CONFIGURATION CLASSES ---
-            const activeClasses = ['bg-[#007BFF]', 'text-white', 'shadow-lg', 'shadow-blue-500/30', 'border-transparent'];
-            const inactiveClasses = ['bg-white', 'text-gray-500', 'border-gray-200', 'hover:bg-gray-50'];
+        </div>
 
-            // --- 2. TAB SWITCHING LOGIC ---
-            function switchTab(tabName) {
-                const tabAboutBtn = document.getElementById('tab-about');
-                const tabLessonsBtn = document.getElementById('tab-lessons');
-                const contentAbout = document.getElementById('content-about');
-                const contentLessons = document.getElementById('content-lessons');
+        <div class="p-6 bg-[#007BFF] border-t border-white/20 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] shrink-0 space-y-3 z-20">
+            <a href="{{ route('dashboard.course.details', $course->slug) }}" 
+               class="block w-full py-3 border border-white text-white text-center rounded-full font-bold text-sm hover:bg-white/10 transition-colors">
+                Back to Details
+            </a>
+        </div>
+    </aside>
 
-                if (!tabAboutBtn || !tabLessonsBtn || !contentAbout || !contentLessons) return;
+    <main class="lg:ml-[320px] ml-0 min-h-screen bg-white flex flex-col transition-all duration-300">
+        
+        <x-nav-dashboard/>
 
-                if (tabName === 'about') {
-                    tabAboutBtn.classList.add(...activeClasses);
-                    tabAboutBtn.classList.remove(...inactiveClasses);
-                    tabLessonsBtn.classList.remove(...activeClasses);
-                    tabLessonsBtn.classList.add(...inactiveClasses);
-                    contentAbout.classList.remove('hidden');
-                    contentLessons.classList.add('hidden');
-                } else if (tabName === 'lessons') {
-                    tabLessonsBtn.classList.add(...activeClasses);
-                    tabLessonsBtn.classList.remove(...inactiveClasses);
-                    tabAboutBtn.classList.remove(...activeClasses);
-                    tabAboutBtn.classList.add(...inactiveClasses);
-                    contentLessons.classList.remove('hidden');
-                    contentAbout.classList.add('hidden');
-                }
-            }
+        <div class="flex-1 p-6 md:p-10">
+            <div class="max-w-4xl mx-auto pb-20">
 
-            // --- 3. ACCORDION LOGIC ---
-            function toggleAccordion(contentId, iconId) {
-                const content = document.getElementById(contentId);
-                const icon = document.getElementById(iconId);
+                <div class="text-[#1E1E1E] leading-relaxed text-sm md:text-[15px] border-t border-gray-100 prose max-w-none">
+                    {!! $currentContent->content ?? '<p class="text-gray-500 italic">Belum ada deskripsi materi.</p>' !!}
+                </div>
+                
+                @php
+                    // 1. Mengumpulkan semua materi dari semua section menjadi satu list urut
+                    $allContents = $course->courseSections->flatMap(function ($section) {
+                        return $section->sectionContents->map(function ($content) use ($section) {
+                            $content->section_id = $section->id; // Simpan section_id agar bisa dipakai di route
+                            return $content;
+                        });
+                    });
 
-                if (!content || !icon) return;
+                    // 2. Cari index materi yang sedang dibuka saat ini
+                    $currentIndex = $allContents->search(function ($item) use ($currentContent) {
+                        return $item->id === $currentContent->id;
+                    });
 
-                if (content.classList.contains('active')) {
-                    content.classList.remove('active');
-                    icon.classList.remove('rotate');
+                    // 3. Tentukan materi sebelum dan sesudahnya
+                    $prevContent = $allContents->get($currentIndex - 1);
+                    $nextContent = $allContents->get($currentIndex + 1);
+                @endphp
+
+                <div class="flex justify-between mt-10 pt-6 border-t border-gray-100">
+                    
+                    @if($prevContent)
+                        <a href="{{ route('dashboard.course.learning', [
+                                'course' => $course->slug, 
+                                'courseSection' => $prevContent->section_id, 
+                                'sectionContent' => $prevContent->id
+                            ]) }}" 
+                           class="px-5 py-2 rounded-full border border-gray-200 text-gray-500 text-sm font-medium hover:bg-gray-50 transition-colors">
+                            &larr; Previous Lesson
+                        </a>
+                    @else
+                        <button disabled class="px-5 py-2 rounded-full border border-gray-100 text-gray-300 text-sm font-medium cursor-not-allowed">
+                            &larr; Previous Lesson
+                        </button>
+                    @endif
+
+                    @if($nextContent)
+                        <a href="{{ route('dashboard.course.learning', [
+                                'course' => $course->slug, 
+                                'courseSection' => $nextContent->section_id, 
+                                'sectionContent' => $nextContent->id
+                            ]) }}" 
+                           class="px-5 py-2 rounded-full bg-[#007BFF] text-white text-sm font-medium hover:bg-blue-600 transition-colors">
+                            Next Lesson &rarr;
+                        </a>
+                    @else
+                        <a href="{{ route('dashboard.course.learning.finished', $course->slug) }}" 
+                           class="px-5 py-2 rounded-full bg-[#007BFF] text-white text-sm font-medium hover:bg-blue-600 transition-colors">
+                            Finish Course &rarr;
+                        </a>
+                    @endif
+
+                </div>
+                </div>
+        </div>
+    </main>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden glass-effect"></div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        // Logic Toggle Sidebar (Mobile)
+        function toggleSidebar() {
+            if (window.innerWidth < 1024) {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
                 } else {
-                    content.classList.add('active');
-                    icon.classList.add('rotate');
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
                 }
             }
+        }
 
-            // --- 4. HAMBURGER MENU ---
-            document.addEventListener('DOMContentLoaded', () => {
-                const hamburgerBtn = document.getElementById('hamburger-btn');
-                const mobileMenu = document.getElementById('mobile-menu');
+        if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+        if(overlay) overlay.addEventListener('click', toggleSidebar);
 
-                if(hamburgerBtn && mobileMenu) {
-                    hamburgerBtn.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                        const icon = hamburgerBtn.querySelector('i');
-                        if (mobileMenu.classList.contains('hidden')) {
-                            icon.classList.remove('fa-xmark');
-                            icon.classList.add('fa-bars');
-                        } else {
-                            icon.classList.remove('fa-bars');
-                            icon.classList.add('fa-xmark');
-                        }
-                    });
+        // Responsive Fix
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
 
-                    document.addEventListener('click', (e) => {
-                        if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
-                            mobileMenu.classList.add('hidden');
-                            const icon = hamburgerBtn.querySelector('i');
-                            if(icon) {
-                                icon.classList.remove('fa-xmark');
-                                icon.classList.add('fa-bars');
-                            }
-                        }
-                    });
-                }
-            });
-        </script>
-    </body>
+        // Dropdown Menu Logic
+        function toggleMenu(menuId, arrowId) {
+            const menu = document.getElementById(menuId);
+            const arrow = document.getElementById(arrowId);
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden'); 
+                arrow.classList.add('rotate-180'); 
+            } else {
+                menu.classList.add('hidden'); 
+                arrow.classList.remove('rotate-180'); 
+            }
+        }
+    </script>
+</body>
 </html>
