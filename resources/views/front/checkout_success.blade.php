@@ -79,7 +79,7 @@
             </section>
             
             <div class="flex items-center justify-center gap-4 mt-2">
-                <a href="{{ route('dashboard.subscriptions') }}"
+                <a href="{{ route('profile.subscriptions') }}"
                 class="px-6 py-2.5 rounded-full border border-obito-grey
                         font-semibold text-sm bg-white
                         hover:border-obito-green transition">

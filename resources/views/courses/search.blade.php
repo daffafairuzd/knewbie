@@ -154,5 +154,25 @@
     </section>
     @endif
 
+    <footer class="bg-[#0E1E46] text-white mt-20">
+            <div class="max-w-6xl mx-auto px-6 md:px-10 lg:px-0 py-10">
+
+                <div class="flex flex-col md:flex-row items-start justify-between gap-8">
+
+                    {{-- Left --}}
+                    <div class="space-y-3 max-w-sm">
+                        <h3 class="text-2xl font-bold">KNewbie</h3>
+                        <p class="text-sm leading-relaxed text-white/80">
+                            Platform pembelajaran interaktif untuk membantu kamu menjadi expert dari basic.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/60">
+                    © {{ date('Y') }} KNewbie — All rights reserved.
+                </div>
+
+            </div>
+    </footer>
 </body>
 </html>

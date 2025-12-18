@@ -84,33 +84,6 @@
                         </svg>
                     </div>
 
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 flex items-center justify-center border-2 border-blue-600 rounded">
-                                <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm md:text-base text-gray-700">Certificate</span>
-                        </div>
-                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
-
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 flex items-center justify-center border-2 border-blue-600 rounded">
-                                <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
-                                </svg>
-                            </div>
-                            <span class="text-sm md:text-base text-gray-700">Full template</span>
-                        </div>
-                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
                 </div>
             </div>
         </div>
@@ -242,7 +215,7 @@
                 </div>
 
             </div>
-        </footer>
+    </footer>
 </body>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
     data-client-key="{{ config('midtrans.clientKey') }}"></script>

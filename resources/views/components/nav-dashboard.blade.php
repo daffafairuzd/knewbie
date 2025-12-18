@@ -10,7 +10,7 @@
             <li>
                 <a href="{{ route('dashboard') }}" 
                    class="hover:font-semibold transition-all duration-300 {{ request()->routeIs('dashboard') ? 'font-bold text-blue-600' : 'font-medium text-gray-700' }}">
-                    Overview
+                    Dashboard
                 </a>
             </li>
             <li>
@@ -78,7 +78,7 @@
         <div class="flex flex-col px-4 py-6 space-y-4">
             <a href="{{ route('dashboard') }}"
                class="py-2 border-b border-gray-100 transition-colors {{ request()->routeIs('dashboard') ? 'font-bold text-blue-600' : 'font-medium text-gray-700 hover:text-blue-600' }}">
-                Overview
+                Dashboard
             </a>
             <a href="{{ url('/pricing') }}"
                class="py-2 border-b border-gray-100 transition-colors {{ request()->is('pricing') ? 'font-bold text-blue-600' : 'font-medium text-gray-700 hover:text-blue-600' }}">

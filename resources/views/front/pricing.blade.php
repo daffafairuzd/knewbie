@@ -182,10 +182,6 @@
                                                     <span class="text-green-500 mt-0.5">✔</span>
                                                     <span>Paket Pembelajaran</span>
                                                 </li>
-                                                <li class="flex items-start gap-2">
-                                                    <span class="text-green-500 mt-0.5">✔</span>
-                                                    <span>Certificate</span>
-                                                </li>
                                             </ul>
                                         </div>
                                     </div>
