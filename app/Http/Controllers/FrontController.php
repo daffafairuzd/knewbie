@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pricing;
+use App\Models\Course; // <--- TAMBAH INI
 use App\Services\PaymentService;
 use App\Services\PricingService;
 use App\Services\TransactionService;
@@ -26,7 +27,6 @@ class FrontController extends Controller
         $this->pricingService = $pricingService;
     }
 
-    //
     public function index()
     {
         return view('front.index');
@@ -53,24 +53,20 @@ class FrontController extends Controller
     public function paymentStoreMidtrans()
     {
         try {
-            // Retrieve the pricing ID from the session
             $pricingId = session()->get('pricing_id');
 
             if (!$pricingId) {
                 return response()->json(['error' => 'No pricing data found in the session.'], 400);
             }
 
-            // Call the PaymentService to generate the Snap token
             $snapToken = $this->paymentService->createPayment($pricingId);
 
             if (!$snapToken) {
                 return response()->json(['error' => 'Failed to create Midtrans transaction.'], 500);
             }
 
-            // Return the Snap token to the frontend
             return response()->json(['snap_token' => $snapToken], 200);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during transaction creation
             return response()->json(['error' => 'Payment failed: ' . $e->getMessage()], 500);
         }
     }
@@ -78,16 +74,12 @@ class FrontController extends Controller
     public function paymentMidtransNotification(Request $request)
     {
         try {
-            // Process the Midtrans notification through the service
             $transactionStatus = $this->paymentService->handlePaymentNotification();
 
             if (!$transactionStatus) {
                 return response()->json(['error' => 'Invalid notification data.'], 400);
             }
 
-            // Respond with the status of the transaction
-
-            // transaction has been created in database
             return response()->json(['status' => $transactionStatus]);
         } catch (\Exception $e) {
             Log::error('Failed to handle Midtrans notification:', ['error' => $e->getMessage()]);
@@ -99,10 +91,35 @@ class FrontController extends Controller
     {
         $pricing = $this->transactionService->getRecentPricing();
 
-        if (!$pricing) {
+        if (! $pricing) {
             return redirect()->route('front.pricing')->with('error', 'No recent subscription found.');
         }
 
-        return view('front.checkout_success', compact('pricing'));
+        // Di-set oleh middleware CheckSubscription waktu user pertama kali klik "Start Learning"
+        $courseSlug = session()->pull('intended_course_slug');
+
+        $course = null;
+        $firstSection = null;
+        $firstContent = null;
+
+        if ($courseSlug) {
+            $course = Course::where('slug', $courseSlug)
+                ->with(['courseSections.sectionContents'])
+                ->first();
+
+            if ($course) {
+                $firstSection = $course->courseSections->first();
+                if ($firstSection) {
+                    $firstContent = $firstSection->sectionContents->first();
+                }
+            }
+        }
+
+        return view('front.checkout_success', [
+            'pricing'      => $pricing,
+            'course'       => $course,
+            'firstSection' => $firstSection,
+            'firstContent' => $firstContent,
+        ]);
     }
 }

@@ -86,16 +86,32 @@
                     My Transactions
                 </a>
 
-                <a href="{{ route('dashboard') }}"
-                class="px-6 py-2.5 rounded-full
-                        font-semibold text-sm text-white
-                        bg-blue-600 hover:bg-blue-700
-                        transition shadow-sm">
-                    Start Learning
-                </a>
+                @if($course && $firstSection && $firstContent)
+                    {{-- Langsung ke lesson pertama dari course yang tadi user pilih --}}
+                    <a href="{{ route('dashboard.course.learning', [
+                            'course'         => $course->slug,
+                            'courseSection'  => $firstSection->id,
+                            'sectionContent' => $firstContent->id,
+                        ]) }}"
+                       class="px-6 py-2.5 rounded-full
+                              font-semibold text-sm text-white
+                              bg-blue-600 hover:bg-blue-700
+                              transition shadow-sm">
+                        Start Learning
+                    </a>
+                @else
+                    {{-- Fallback kalau nggak ada informasi course di session --}}
+                    <a href="{{ route('dashboard') }}"
+                       class="px-6 py-2.5 rounded-full
+                              font-semibold text-sm text-white
+                              bg-blue-600 hover:bg-blue-700
+                              transition shadow-sm">
+                        Start Learning
+                    </a>
+                @endif
             </div>
 
         </div>
     </main>
 </body>
-
+</html>

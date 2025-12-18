@@ -176,10 +176,10 @@
         <div class="flex items-center justify-end gap-4 my-8 ">
             <!-- Back -->
             <a href="{{ url('/pricing') }}"
-            class="h-[46px] px-16 rounded-full border border-gray-300
-                    flex items-center justify-center
-                    text-gray-700 font-semibold text-sm
-                    hover:bg-gray-50 transition">
+               class="h-[46px] px-16 rounded-full border border-gray-300
+                      flex items-center justify-center
+                      text-gray-700 font-semibold text-sm
+                      hover:bg-gray-50 transition">
                 Back
             </a>
 
@@ -189,80 +189,92 @@
                 <input type="text" hidden name="package_id" value="Midtrans">
                 <button id="pay-button" type="submit"
                         class="h-[46px] px-16 rounded-full
-                            bg-blue-600 text-white font-semibold text-sm
-                            hover:bg-blue-700 transition shadow-sm">
+                               bg-blue-600 text-white font-semibold text-sm
+                               hover:bg-blue-700 transition shadow-sm">
                     Payment
                 </button>
             </form>
         </div>
     </div>
+
     <footer class="bg-[#0E1E46] text-white mt-20">
-            <div class="max-w-6xl mx-auto px-6 md:px-10 lg:px-0 py-10">
-
-                <div class="flex flex-col md:flex-row items-start justify-between gap-8">
-
-                    {{-- Left --}}
-                    <div class="space-y-3 max-w-sm">
-                        <h3 class="text-2xl font-bold">KNewbie</h3>
-                        <p class="text-sm leading-relaxed text-white/80">
-                            Platform pembelajaran interaktif untuk membantu kamu menjadi expert dari basic.
-                        </p>
-                    </div>
+        <div class="max-w-6xl mx-auto px-6 md:px-10 lg:px-0 py-10">
+            <div class="flex flex-col md:flex-row items-start justify-between gap-8">
+                <div class="space-y-3 max-w-sm">
+                    <h3 class="text-2xl font-bold">KNewbie</h3>
+                    <p class="text-sm leading-relaxed text-white/80">
+                        Platform pembelajaran interaktif untuk membantu kamu menjadi expert dari basic.
+                    </p>
                 </div>
-
-                <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/60">
-                    © {{ date('Y') }} KNewbie — All rights reserved.
-                </div>
-
             </div>
+
+            <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/60">
+                © {{ date('Y') }} KNewbie — All rights reserved.
+            </div>
+        </div>
     </footer>
 </body>
-    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="{{ config('midtrans.clientKey') }}"></script>
 
-    <script type="text/javascript">
-        const payButton = document.getElementById('pay-button');
-        payButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Fetch the Snap token from your backend
-            fetch('{{ route("front.payment_store_midtrans") }}', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
-                    },
-                    body: JSON.stringify({
-                        // Any additional data you want to send with the request
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.snap_token) {
-                        // Trigger Midtrans Snap payment popup
-                        snap.pay(data.snap_token, {
-                            onSuccess: function(result) {
-                                window.location.href = "{{ route('front.checkout.success') }}";
-                            },
-                            onPending: function(result) {
-                                alert('Payment pending!');
-                                window.location.href = "{{ route('front.index') }}";
-                            },
-                            onError: function(result) {
-                                alert('Payment failed: ' + result.status_message);
-                                window.location.href = "{{ route('front.index') }}";
-                            },
-                            onClose: function() {
-                                alert('Payment popup closed');
-                                window.location.href = "{{ route('front.index') }}";
-                            }
-                        });
-                    } else {
-                        alert('Error: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
+{{-- MIDTRANS SNAP JS --}}
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.clientKey') }}"></script>
+
+<script type="text/javascript">
+    const payButton = document.getElementById('pay-button');
+
+    payButton.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // optional: disable tombol biar user nggak spam klik
+        payButton.disabled = true;
+        payButton.textContent = 'Processing...';
+
+        fetch('{{ route("front.payment_store_midtrans") }}', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.snap_token) {
+                    snap.pay(data.snap_token, {
+                        onSuccess: function(result) {
+                            console.log('Success:', result);
+                            window.location.href = "{{ route('front.checkout.success') }}";
+                        },
+                        onPending: function(result) {
+                            console.log('Pending:', result);
+                            alert('Payment pending! Silakan selesaikan pembayaran di aplikasi/payment channel kamu atau cek lagi nanti.');
+                            // tetap di halaman checkout
+                        },
+                        onError: function(result) {
+                            console.error('Error:', result);
+                            alert('Payment failed: ' + (result.status_message || 'Terjadi kesalahan pada pembayaran.'));
+                            // tetap di halaman checkout
+                        },
+                        onClose: function() {
+                            console.warn('Popup closed tanpa menyelesaikan pembayaran');
+                            alert('Payment popup ditutup sebelum pembayaran selesai.');
+                            // tetap di halaman checkout
+                        }
+                    });
+                } else {
+                    console.error('Error response:', data);
+                    alert('Error: ' + (data.error || 'Gagal membuat transaksi Midtrans.'));
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                alert('Terjadi kesalahan saat memproses pembayaran. Coba lagi beberapa saat lagi.');
+            })
+            .finally(() => {
+                // re-enable tombol apapun hasilnya, kecuali kamu mau disable permanen
+                payButton.disabled = false;
+                payButton.textContent = 'Payment';
+            });
+    });
+</script>
 </html>
