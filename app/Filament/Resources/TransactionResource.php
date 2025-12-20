@@ -46,14 +46,14 @@ class TransactionResource extends Resource
                                     ->required()
                                     ->live()
                                     ->afterStateUpdated(function ($state, callable $set) {
-                                        $pricing = Pricing::find($state); // get the pricing information
+                                        $pricing = Pricing::find($state); 
 
-                                        $price = $pricing->price; // get the price
-                                        $duration = $pricing->duration; // get the duration
+                                        $price = $pricing->price; 
+                                        $duration = $pricing->duration; 
 
-                                        $subTotal = $price * $state; // get the sub total
-                                        $totalPpn = $subTotal * 0.11; // get the total ppn
-                                        $totalAmount = $subTotal + $totalPpn; // get the total amount
+                                        $subTotal = $price; 
+                                        $totalPpn = $subTotal * 0.11; 
+                                        $totalAmount = $subTotal + $totalPpn; 
 
                                         $set('total_tax_amount', $totalPpn);
                                         $set('grand_total_amount', $totalAmount);

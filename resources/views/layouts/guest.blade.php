@@ -1,30 +1,35 @@
-<!DOCTYPE html>
+{{-- resources/views/layouts/guest.blade.php --}}
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $title ?? config('app.name', 'KNewbie') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        {{-- Tailwind hasil build kamu --}}
+        <link href="{{ asset('css/output.css') }}" rel="stylesheet">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- Google Font Poppins (biar konsisten dengan halaman lain) --}}
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+
+        {{-- OPTIONAL: kalau kamu masih sering pakai CDN Tailwind di halaman lain dan mau konsisten --}}
+        {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    <body class="font-['Poppins'] bg-gray-50 text-gray-900">
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+        {{-- Navbar tamu, boleh dihapus kalau nggak mau navbar di halaman reset/forgot --}}
+        <x-nav-guest />
+
+        <main class="min-h-[calc(100vh-80px)] flex items-center justify-center py-10 px-4">
+            {{-- Semua konten halaman (forgot-password, reset-password, dll) akan masuk di sini --}}
+            <div class="w-full max-w-md">
                 {{ $slot }}
             </div>
-        </div>
+        </main>
+
     </body>
 </html>

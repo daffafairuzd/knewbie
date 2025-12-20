@@ -84,6 +84,16 @@
                                     </div>
                                 </div>
 
+                                <div class="flex items-center justify-between mt-4">
+                                    <a
+                                        href="{{ route('password.request') }}"
+                                        class="text-xs md:text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                                    >
+                                        Forgot your password?
+                                    </a>
+                                </div>
+
+
                                 <button 
                                     type="submit" 
                                     class="w-full mt-2 rounded-xl py-3.5 px-6 bg-blue-600 text-white font-semibold hover:bg-blue-700 hover:shadow-xl transition transform hover:-translate-y-0.5"
@@ -93,7 +103,7 @@
                             </form>
 
                             <p class="text-center text-sm text-gray-600 mt-6">
-                                Already have an account? 
+                                Don't have an account? 
                                 <a href="{{ route('register') }}" class="text-blue-600 font-semibold hover:underline">Sign Up</a>
                             </p>
                         </div>
