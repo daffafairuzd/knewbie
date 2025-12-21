@@ -105,10 +105,10 @@ class TransactionResource extends Resource
                                 Forms\Components\DatePicker::make('started_at')
                                 ->live()
                                 ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                    $duration = $get('duration'); // Get the duration from the form state
+                                    $duration = $get('duration'); 
                                     if ($state && $duration) {
-                                        $endedAt = \Carbon\Carbon::parse($state)->addMonth($duration); // Calculate the end date
-                                        $set('ended_at', $endedAt->format('Y-m-d')); // Set the calculated end date
+                                        $endedAt = \Carbon\Carbon::parse($state)->addMonth($duration); 
+                                        $set('ended_at', $endedAt->format('Y-m-d')); 
                                     }
                                 })
                                 ->required(),

@@ -19,7 +19,7 @@
         <meta property="og:url" content="{{ url('/pricing') }}">
         <meta property="og:type" content="website">
 
-        <!-- Tailwind CDN (opsional, kalau sudah ada di output.css boleh dihapus) -->
+        
         <script src="https://cdn.tailwindcss.com"></script>
 
         <!-- OWL CAROUSEL CSS -->
@@ -33,25 +33,25 @@
                 background-color: #F4F7FF;
             }
 
-            /* wrapper luar: nyembunyiin clone di kiri/kanan */
+            
             .pricing-carousel-wrapper {
                 position: relative;
-                overflow-x: hidden;   /* important: hide off-stage items horizontally */
+                overflow-x: hidden;  
                 overflow-y: visible;
                 padding-inline: 0;
             }
 
-            /* di dalam: shadow & card naik nggak kepotong */
+            
             .pricing-carousel .owl-stage-outer {
-                overflow: hidden !important;   /* <<< wajib hidden untuk clipping horizontal */
-                padding-top: 36px;             /* beri ruang atas untuk active card yang naik */
+                overflow: hidden !important;   
+                padding-top: 36px;             
                 padding-bottom: 18px;
                 box-sizing: border-box;
             }
 
-            /* gap antar card diatur dari sini saja */
+            
             .pricing-carousel .owl-item {
-                padding: 12px 38px !important; /* vertical 12px, horizontal 6px => rapet */
+                padding: 12px 38px !important; 
             }
 
 
@@ -82,10 +82,10 @@
             }
 
             .pricing-carousel .owl-nav button:hover {
-                background: #F0F4FF;                     /* Hover efek sedikit biru */
+                background: #F0F4FF;                     
                 border-color: rgba(0,0,0,0.12);
                 transform: translateY(-2px);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Lebih muncul saat hover */
+                box-shadow: 0 8px 20px rgba(0,0,0,0.12); 
             }
 
 
@@ -102,9 +102,9 @@
             .pricing-item {
                 transition: all 0.25s ease;
                 border-radius: 26px;
-                width: 280px;      /* paksa width tetap */
+                width: 280px;      
                 max-width: 280px;
-                margin: 0;         /* jangan auto */
+                margin: 0;         
                 box-sizing: border-box;
             }
 
@@ -259,7 +259,7 @@
 
                 $carousel.owlCarousel({
                     loop: true,
-                    margin: 0,     // margin 0, gap hanya dari padding .owl-item
+                    margin: 0,    
                     dots: false,
                     nav: true,
                     navText: ['&#10094;', '&#10095;'],

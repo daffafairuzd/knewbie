@@ -49,7 +49,6 @@ class UserResource extends Resource
                 ->minLength(9)
                 ->maxLength(255)
                 ->rules([
-                    // MODIFIKASI: Mengganti '.' dengan '.*' di semua lookahead
                     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&^#\-=+<>.,])[A-Za-z\d@$!%?&^#\-=+<>.,]{9,}$/'
                 ])
                 ->validationMessages([

@@ -1,4 +1,3 @@
-{{-- resources/views/profile/partials/update-password-form.blade.php --}}
 <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-5">
     @csrf
     @method('PUT')

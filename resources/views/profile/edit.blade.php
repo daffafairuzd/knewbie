@@ -76,19 +76,12 @@
             </div>
         </aside>
 
-        {{-- 
-            2. OVERLAY GELAP
-            UPDATE: Z-Index diubah menjadi z-[90]. 
-            Ini akan menutupi Navbar (biasanya z-50) tapi tetap di bawah Sidebar (z-100).
-        --}}
+    
         <div id="sidebar-overlay" onclick="toggleSidebar()" 
              class="fixed inset-0 bg-black/60 z-[90] hidden lg:hidden transition-opacity backdrop-blur-sm">
         </div>
 
-        {{-- 
-            3. TOMBOL FLOAT (POJOK KANAN BAWAH)
-            UPDATE: Z-Index z-40 (Di bawah Overlay, jadi saat sidebar buka, tombol ini tertutup gelap juga)
-        --}}
+        
         <button onclick="toggleSidebar()" 
             class="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#007BFF] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 hover:scale-105 transition-all focus:outline-none focus:ring-4 focus:ring-blue-300">
             <i class="fa-solid fa-bars text-xl"></i>
@@ -105,7 +98,7 @@
             <div class="flex-1 py-10 md:py-14">
                 <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-0">
 
-                    {{-- Section Ringkasan Profile --}}
+                    {{-- Ringkasan Profile --}}
                     <section class="bg-white rounded-[32px] shadow-xl px-6 md:px-10 lg:px-12 py-8 md:py-10">
                         <h1 class="text-xl md:text-2xl font-extrabold text-[#0073FF] text-center mb-8">
                             My Profile

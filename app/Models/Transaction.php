@@ -11,7 +11,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'booking_trx_id', // OBITO12345
+        'booking_trx_id', 
         'user_id',
         'pricing_id',
         'sub_total_amount',

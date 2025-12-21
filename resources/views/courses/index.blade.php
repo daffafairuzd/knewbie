@@ -84,23 +84,20 @@
         </section>
 
         <style>
-            /* Hide scrollbar but keep functionality */
             .hide-scroll {
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; 
+                -ms-overflow-style: none; 
             }
             .hide-scroll::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
+                display: none; 
             }
         </style>
 
         <script>
-            // Carousel functionality for multiple categories
             document.addEventListener('DOMContentLoaded', function() {
                 const carousels = document.querySelectorAll('[id^="carousel-"]');
                 
                 carousels.forEach(carousel => {
-                    // Add smooth scroll behavior
                     carousel.style.scrollBehavior = 'smooth';
                 });
             });

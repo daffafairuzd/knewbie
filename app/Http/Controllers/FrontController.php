@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pricing;
-use App\Models\Course; // <--- TAMBAH INI
+use App\Models\Course; 
 use App\Services\PaymentService;
 use App\Services\PricingService;
 use App\Services\TransactionService;
@@ -95,7 +95,6 @@ class FrontController extends Controller
             return redirect()->route('front.pricing')->with('error', 'No recent subscription found.');
         }
 
-        // Di-set oleh middleware CheckSubscription waktu user pertama kali klik "Start Learning"
         $courseSlug = session()->pull('intended_course_slug');
 
         $course = null;

@@ -177,13 +177,13 @@
                 const deleteButton = document.getElementById('delete-photo');
                 const placeholderText = document.getElementById('placeholder-text'); 
 
-                // 1. Logika Klik Tombol ke Input File
+                
                 uploadButton.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     hiddenInput.click(); 
                 });
 
-                // 2. Logika Pratinjau Foto (Preview)
+                
                 hiddenInput.addEventListener('change', function() {
                     if (this.files && this.files[0]) {
                         const file = this.files[0];
@@ -200,7 +200,7 @@
                     }
                 });
                 
-                // 3. Logika Hapus Foto
+                
                 deleteButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     hiddenInput.value = ''; 

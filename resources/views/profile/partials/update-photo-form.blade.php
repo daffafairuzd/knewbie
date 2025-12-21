@@ -1,4 +1,3 @@
-{{-- resources/views/profile/partials/update-photo-form.blade.php --}}
 @php
     $photoPath = $user->photo ?? null;
     $photoUrl  = $photoPath

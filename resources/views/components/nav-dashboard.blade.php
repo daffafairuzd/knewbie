@@ -1,6 +1,5 @@
 <nav id="nav-guest" class="flex w-full bg-white border-b border-gray-200 relative">
     <div class="flex w-full max-w-[1280px] px-4 md:px-8 lg:px-[75px] py-5 items-center mx-auto">
-        <!-- Logo -->
         <a href="{{ route('dashboard') }}" class="flex shrink-0 z-50">
             <h1 class="font-bold text-xl md:text-2xl">KNewbie</h1>
         </a>

@@ -91,18 +91,10 @@
             </div>
         </aside>
 
-        {{-- 
-            2. OVERLAY (Z-Index 90)
-            Menutupi konten tapi di bawah Sidebar
-        --}}
         <div id="sidebar-overlay" onclick="toggleSidebar()" 
              class="fixed inset-0 bg-black/60 z-[90] hidden lg:hidden transition-opacity backdrop-blur-sm">
         </div>
 
-        {{-- 
-            3. FLOATING BUTTON (Z-Index 40)
-            Muncul di pojok kanan bawah mobile
-        --}}
         <button onclick="toggleSidebar()" 
             class="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#007BFF] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 hover:scale-105 transition-all focus:outline-none focus:ring-4 focus:ring-blue-300">
             <i class="fa-solid fa-bars text-xl"></i>
@@ -204,7 +196,6 @@
                 }
             }
 
-            // Reset saat resize ke desktop
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 1024) {
                     sidebar.classList.remove('-translate-x-full');

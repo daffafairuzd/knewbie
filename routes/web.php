@@ -25,14 +25,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/subscriptions/', [DashboardController::class, 'subscriptions'])
         ->name('dashboard.subscriptions');
 
-        // model binding 1, 23, 412 ,2121
         Route::get('/dashboard/subscription/{transaction}', [DashboardController::class, 'subscription_details'])
         ->name('dashboard.subscription.details');
 
         Route::get('/dashboard/courses/', [CourseController::class, 'index'])
         ->name('dashboard');
 
-        // slug web-design
         Route::get('/dashboard/course/{course:slug}', [CourseController::class, 'details'])
         ->name('dashboard.course.details');
 
@@ -40,7 +38,6 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.search.courses');
 
         Route::middleware(['check.subscription'])->group(function () {
-            // web-design-hack/1/12
             Route::get('/dashboard/learning/{course:slug}/{courseSection}/{sectionContent}', [CourseController::class, 'learning'])
             ->name('dashboard.course.learning');
 
@@ -57,7 +54,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/booking/payment/midtrans', [FrontController::class, 'paymentStoreMidtrans'])
         ->name('front.payment_store_midtrans');
         
-        // URL yang diakses di browser: http://127.0.0.1:8000/course-details
         Route::get('/course-details', [DashboardController::class, 'index'])
         ->name('dashboard.details.demo');
     });

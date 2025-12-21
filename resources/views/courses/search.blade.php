@@ -37,7 +37,6 @@
             </div>
 
             @if($courses->isEmpty())
-                <!-- Empty State -->
                 <div class="bg-white rounded-[30px] shadow-[0_20px_50px_rgba(0,0,0,0.04)] p-12 text-center">
                     <div class="max-w-md mx-auto">
                         <div class="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
@@ -63,13 +62,13 @@
                     </div>
                 </div>
             @else
-                <!-- Course Grid -->
+                
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     @foreach($courses as $course)
                         <a href="{{ route('dashboard.course.details', $course->slug) }}" 
                            class="group bg-white rounded-[20px] shadow-md hover:shadow-xl overflow-hidden transition-all duration-300 hover:-translate-y-1">
                             
-                            <!-- Thumbnail -->
+                            
                             <div class="relative overflow-hidden h-48">
                                 <img
                                     src="{{ asset('storage/' . $course->thumbnail) }}"
@@ -78,19 +77,19 @@
                                 >
                             </div>
 
-                            <!-- Content -->
+                            
                             <div class="p-5">
-                                <!-- Title -->
+                                
                                 <h3 class="font-bold text-base text-[#1E1E1E] mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug">
                                     {{ $course->name }}
                                 </h3>
 
-                                <!-- Description -->
+                                
                                 <p class="text-sm text-gray-500 line-clamp-2 mb-4 leading-relaxed">
                                     {{ $course->about }}
                                 </p>
 
-                                <!-- Footer Info -->
+                                
                                 <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                                     <div class="flex items-center gap-2 text-gray-400">
                                         <i class="fa-solid fa-book text-xs"></i>

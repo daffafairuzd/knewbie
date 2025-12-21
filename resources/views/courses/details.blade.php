@@ -14,21 +14,20 @@
         <script src="https://cdn.tailwindcss.com"></script>
         
         <style>
-            /* ANIMASI ACCORDION */
+            
             .accordion-content {
                 transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s;
                 max-height: 0;
                 opacity: 0;
                 overflow: hidden;
             }
-            
-            /* Gunakan max-height yang cukup besar agar konten panjang tidak terpotong */
+        
             .accordion-content.active {
-                max-height: 2000px; /* Nilai aman */
+                max-height: 2000px; 
                 opacity: 1;
             }
 
-            /* ANIMASI CHEVRON */
+            
             .chevron {
                 transition: transform 0.3s ease;
             }
