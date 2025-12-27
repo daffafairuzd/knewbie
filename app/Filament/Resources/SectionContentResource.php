@@ -60,20 +60,9 @@ class SectionContentResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('name')
-                ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('courseSection.name')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('courseSection.course.name')
-                    ->sortable()
-                    ->searchable(),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('courseSection.name'),
+                Tables\Columns\TextColumn::make('courseSection.course.name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

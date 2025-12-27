@@ -47,12 +47,6 @@ class PricingResource extends Resource
                     ->prefix('Month')
                     ->minValue(1), 
 
-
-                    Forms\Components\TextInput::make('duration')
-                    ->required()
-                    ->numeric()
-                    ->prefix('Month'),
-
                 ]),
             ]);
     }
@@ -62,14 +56,9 @@ class PricingResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('price'),
                 Tables\Columns\TextColumn::make('duration'),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -83,13 +83,9 @@ class UserResource extends Resource
                 //
                 Tables\Columns\ImageColumn::make('photo'),
 
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('name'),
 
                 Tables\Columns\TextColumn::make('roles.name'),
-            ])
-            ->filters([
-                // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

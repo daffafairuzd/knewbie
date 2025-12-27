@@ -197,13 +197,12 @@ class TransactionResource extends Resource
                 //
                 Tables\Columns\ImageColumn::make('student.photo')
                 ->circular()
-                ,
+                ->label('Photo'),
 
-                Tables\Columns\TextColumn::make('student.name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('student.name'),
 
                 Tables\Columns\TextColumn::make('booking_trx_id')
-                ->searchable(),
+                ->label('Transaction id'),
 
                 Tables\Columns\TextColumn::make('pricing.name'),
 
@@ -214,9 +213,6 @@ class TransactionResource extends Resource
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->label('Terverifikasi'),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

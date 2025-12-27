@@ -60,20 +60,15 @@ class CourseMentorResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\ImageColumn::make('mentor.photo'),
+                Tables\Columns\ImageColumn::make('mentor.photo')
+                ->label('Photo'),
 
-                Tables\Columns\TextColumn::make('mentor.name')
-                    ->sortable()
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('mentor.name'),
 
-                Tables\Columns\ImageColumn::make('course.thumbnail'),
+                Tables\Columns\ImageColumn::make('course.thumbnail')
+                ->label('thumbnail'),
 
-                Tables\Columns\TextColumn::make('course.name')
-                    ->sortable()
-                    ->searchable(),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Columns\TextColumn::make('course.name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

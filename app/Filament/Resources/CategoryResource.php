@@ -44,11 +44,7 @@ class CategoryResource extends Resource
             ->columns([
                 //
                 TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

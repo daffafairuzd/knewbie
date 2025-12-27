@@ -39,10 +39,7 @@ class RoleResource extends Resource
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-            ])
-            ->filters([
-                // Tables\Filters\TrashedFilter::make(),
+                    
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

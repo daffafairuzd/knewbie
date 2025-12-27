@@ -78,10 +78,7 @@ class CourseResource extends Resource
             ->columns([
                 //
                 Tables\Columns\ImageColumn::make('thumbnail'),
-
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('category.name'),
 
                 Tables\Columns\IconColumn::make('is_popular')
@@ -91,9 +88,6 @@ class CourseResource extends Resource
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->label('Popular'),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
